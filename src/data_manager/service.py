@@ -26,7 +26,7 @@ class ChatBotServiceSimilarity:
 
         return self
 
-    def get_answer(self, question: str, top_idx: int = 1) -> str:
+    def get_answer(self, question: str, top_idx: int = 5) -> str:
         question_vector = self.qa_processor.preprocess_question(question)
         similarities = cosine_similarity(question_vector, self.processed_source)
         if len(similarities) == 0:
@@ -36,4 +36,4 @@ class ChatBotServiceSimilarity:
         answers = [self._sentences[idx] for idx in top_indices]
         if len(answers) == 0:
             return "No answers found"
-        return answers[0]
+        return "********************\n".join(answers)
