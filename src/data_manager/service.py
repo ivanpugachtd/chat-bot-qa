@@ -34,6 +34,6 @@ class ChatBotServiceSimilarity:
 
         top_indices = similarities[0].argsort()[-top_idx:][::-1]
         answers = [self._sentences[idx] for idx in top_indices]
-        if not answers:
+        if len(answers) == 0:
             return "No answers found"
         return answers[0]
