@@ -4,7 +4,7 @@ from src.chatbot.chat_bot_faiss import ChatBotServiceSentenceTransformer, OpenAi
 from src.data_manager.file_loader import FileDataLoader
 import logging
 from dotenv import load_dotenv
-from src.data_manager.models import Answer
+from src.data_manager.models import Answer, QuestionReqeust
 from src.data_manager.text_preprocessor import TextPreprocessorSimple
 from src.data_manager.service import ChatBotServiceSimilarity
 import os
@@ -33,18 +33,18 @@ chat_bot_transformer = ChatBotServiceSentenceTransformer(
 chat_bot_langchain = ChatBotLangchain(book_path, open_api_key).process()
 
 
-@app.get("/chat-simple", response_model=Answer)
-async def chat_simple(question: str):
-    return Answer(answer=chat_bot_simple.get_answer(question))
+@app.post("/chat-simple", response_model=Answer)
+async def chat_simple(request: QuestionReqeust):
+    return Answer(answer=chat_bot_simple.get_answer(request.question))
 
 
-@app.get("/chat-sentence-transformer", response_model=Answer)
-async def chat_sentence_transformer(question: str):
-    return Answer(answer=await chat_bot_transformer.get_answer(question))
+@app.post("/chat-sentence-transformer", response_model=Answer)
+async def chat_sentence_transformer(request: QuestionReqeust):
+    return Answer(answer=await chat_bot_transformer.get_answer(request.question))
 
-@app.get("/chat-langchain", response_model=Answer)
-async def chat_openai(question: str):
-    return Answer(answer=chat_bot_langchain.get_answer(question))
+@app.post("/chat-langchain", response_model=Answer)
+async def chat_openai(request: QuestionReqeust):
+    return Answer(answer=chat_bot_langchain.get_answer(request.question))
 
 
 if __name__ == "__main__":
