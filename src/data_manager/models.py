@@ -1,5 +1,5 @@
-from typing import Protocol
+from pydantic import BaseModel
 
 
-class IDataProvider(Protocol):
-    def get_data(self) -> None: ...
+class Answer(BaseModel):
+    answer: str
