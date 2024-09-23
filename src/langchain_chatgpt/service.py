@@ -46,7 +46,7 @@ class ChatBotLangchain:
             vector_store.save_local(self._local_vector_store)
             
         _vector_store = FAISS.load_local(self._local_vector_store, embeddings, allow_dangerous_deserialization=True)
-        llm = ChatOpenAI(model_name=self._default_model, temperature=0)
+        llm = ChatOpenAI(model_name=self._default_model, temperature=0) # type: ignore
         self.qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type='stuff',
