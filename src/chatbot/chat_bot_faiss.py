@@ -81,12 +81,10 @@ class ChatBotServiceSentenceTransformer:
             convert_to_numpy=True,
         )
 
-        # Convert embeddings to float32 (required for Faiss)
         paragraph_embeddings: NDArray[np.float32] = np.array(
             paragraph_embeddings
         ).astype("float32")
         faiss.normalize_L2(paragraph_embeddings)
-        # Build the Faiss index
         dimension = paragraph_embeddings.shape[1]
         self._index = faiss.IndexFlatL2(dimension)
         self._index.add(paragraph_embeddings)  # type: ignore
@@ -102,11 +100,12 @@ class ChatBotServiceSentenceTransformer:
         ).astype("float32")
         faiss.normalize_L2(question_embedding)
 
-        distances, indices = self._index.search(question_embedding, top_idx)  # type: ignore
+        _, indices = self._index.search(question_embedding, top_idx)  # type: ignore
         if len(indices) == 0:
             raise ValueError("No similarities found")
         
         similar_paragraphs = [self._paragraphs[idx] for idx in indices[0]]
+        
         return await self.get_response_from_model(question, "\n\n".join(similar_paragraphs[:top_idx]))
 
     async def get_response_from_model(self, question: str, source_data: str) -> str:

@@ -1,4 +1,4 @@
-from typing import Iterable, List
+from typing import List
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import BlanklineTokenizer
 
@@ -38,8 +38,7 @@ class SentencesSplitter(Splitter):
 
     def _split(self) -> None:
         self._splitted_data = sent_tokenize(self.data, self._language)
-        print(f"Sentences type: {type(self._splitted_data)}")
-        print(f"Found: {len(self._splitted_data)}")
+        print(f"Found sentences: {len(self._splitted_data)}")
 
 
 class ParagraphSplitter(Splitter):
@@ -48,4 +47,4 @@ class ParagraphSplitter(Splitter):
 
     def _split(self) -> None:
         self._splitted_data = BlanklineTokenizer().tokenize(self.data)
-        print(f"Sentences type: {type(self._splitted_data)}")
+        print(f"Found paragraphs: {len(self._splitted_data)}")
