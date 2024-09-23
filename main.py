@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from src.langchain_option.service import ChatBotLangchain
-from src.chatbot.chat_bot_faiss import ChatBotServiceSentenceTransformer, OpenAiService
+from src.langchain_chatgpt.service import ChatBotLangchain
+from src.chatgpt_with_faiss.service import ChatBotServiceSentenceTransformer, OpenAiService
 from src.data_manager.file_loader import FileDataLoader
 import logging
 from dotenv import load_dotenv
