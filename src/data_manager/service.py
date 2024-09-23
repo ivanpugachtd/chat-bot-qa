@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import spmatrix
 
 
-class ChatBotServiceOption1:
+class ChatBotServiceSimilarity:
     def __init__(
         self, qa_processor: TextPreprocessorSimple, data_loader: BaseLoader
     ) -> None:
