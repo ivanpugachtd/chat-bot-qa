@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import spmatrix
 
 class BaseProcessor(Protocol):
-    def preprocess_source(self, ):
+    def preprocess_source(self):
         raise NotImplementedError("Method preprocess_source not implemented")
     
     def preprocess_question(self):
@@ -20,7 +20,8 @@ class TextPreprocessorSimple(BaseProcessor):
         self.vectorizer = TfidfVectorizer()
 
     def _preprocess_chunk(self, chunk: str) -> str:
-        chunk = chunk.lower()
+        chunk = chunk.lower().strip()
+        
         words = word_tokenize(chunk)
         words = [
             word
@@ -29,14 +30,14 @@ class TextPreprocessorSimple(BaseProcessor):
         ]
         return " ".join(words)
 
-    def _preprocess_text(self, chunks: List[str]) -> Generator[str, None, None]:
+    def preprocess_text(self, chunks: List[str]) -> Generator[str, None, None]:
         preprocessed_chunks = (
             self._preprocess_chunk(sentence) for sentence in chunks
         )
         return preprocessed_chunks
 
     def preprocess_source(self, sentences: List[str]) -> spmatrix:
-        return self.vectorizer.fit_transform(self._preprocess_text(sentences))
+        return self.vectorizer.fit_transform(self.preprocess_text(sentences))
 
     def preprocess_question(self, question: str) -> spmatrix:
         return self.vectorizer.transform([self._preprocess_chunk(question)])
