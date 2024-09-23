@@ -1,8 +1,7 @@
 from typing import List, Self
 from src.data_manager.splitters import SentencesSplitter
-from src.data_manager.file_loader import BaseLoader, FileDataLoader
-from src.data_manager.text_preprocessor import BaseProcessor, TextPreprocessorSimple
-from sklearn.feature_extraction.text import TfidfVectorizer
+from src.data_manager.file_loader import BaseLoader
+from src.data_manager.text_preprocessor import TextPreprocessorSimple
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import spmatrix
 
